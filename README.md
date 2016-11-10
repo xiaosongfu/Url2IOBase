@@ -4,7 +4,7 @@
 
 代码使用建造者模式，使用十分简单，到[测试文件：Url2IOBaseTest](https://github.com/xiaosongfu/Url2IOBase/blob/master/src/com/fuxiaosong/url2iobase/Url2IOBaseTest.java)里一看便懂。有几点需要着重说明：
 
-1. index: 仅表示索引，该属性的默认值为1，仅仅是标识当前爬取到第多少页，在控制台打印信息的时候显示用，并没有其他什么用
+> 1. index: 仅表示索引，该属性的默认值为1，仅仅是标识当前爬取到第多少页，在控制台打印信息的时候显示用，并没有其他什么用
 2. total: 指定需要爬取多少页的数据
 3. what: 爬取的是什么东西，如小说的书名，仅用于输出文件的文件名
 4. token: token必须要设置，token必须要设置，重要的事情说2遍(到官网[url2io](http://www.url2io.com/)注册帐号就可以拿到token了，莫急莫急)
