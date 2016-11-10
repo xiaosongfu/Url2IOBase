@@ -61,6 +61,7 @@ public final class Url2IOBase {
      */
     public Url2IOBase(int index, int total , String what, String baseUrl , String beginUrl, Long sleepTime , BaseProcess baseProcess) {
         this.mIndex = index;
+        this.mFileNamePre = mIndex / 10 + 1;
         this.mTotal = total;
         this.mFileName = what + "-";
         this.mBaseUrl = "http://api.url2io.com/article?token="+baseUrl+"&fields=next,text&url=";
@@ -195,10 +196,10 @@ public final class Url2IOBase {
             /*
              * 写内容
              */
-            if (mIndex % 10 == 0) {
+            if ((mIndex-1) % 10 == 0) {
                 mFileNamePre++;
-                mMid = ((mFileNamePre - 1) * 10) + "" + (mFileNamePre + 10);
             }
+            mMid = ((mFileNamePre - 1) * 10 +1) + "-" + (mFileNamePre * 10);
             mWriterContentToFile.write(mFileName + mMid + "-content.txt", "\n\r\n" + mTitle + "\n" + mContent);
 
             /*
