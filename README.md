@@ -1,6 +1,6 @@
 昨天刷微博的时候看到了[url2io](http://www.url2io.com/)，恰巧最近有爬网页的需求，便着手对[url2io](http://www.url2io.com/)官方的api进行二次封装。封装得不好，见谅！
 
-封装到何种程度是让人比较纠结的，如果封装的不够灵活，可能就不能拿来直接用了，可是官方的api十分的简单，封装的太灵活可能反而不如不封装，所以大家如果觉得可以直接用的，到[release下载jar包]()即可，如果不能直接用的可以下载源码自己修改，代码渣，见谅。
+封装到何种程度是让人比较纠结的，如果封装的不够灵活，可能就不能拿来直接用了，可是官方的api十分的简单，封装的太灵活可能反而不如不封装，所以大家如果觉得可以直接用的，到[release下载jar包](https://github.com/xiaosongfu/Url2IOBase/releases/download/v1.0.0/Url2IOBase.jar)即可，如果不能直接用的可以下载源码自己修改，代码渣，见谅。
 
 代码使用建造者模式，使用十分简单，到[测试文件：Url2IOBaseTest](https://github.com/xiaosongfu/Url2IOBase/blob/master/src/com/fuxiaosong/url2iobase/Url2IOBaseTest.java)里一看便懂。有几点需要着重说明：
 1. index: 仅表示索引，该属性的默认值为1，仅仅是标识当前爬取到第多少页，在控制台打印信息的时候显示用，并没有其他什么用
