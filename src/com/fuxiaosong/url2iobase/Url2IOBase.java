@@ -38,16 +38,23 @@ public final class Url2IOBase {
     //保存各种错误信息
     private static HashMap<String , String> mErrorInfoMap = null;
 
+
+    private static final String PERMISSION_ERROR = "PermissionError";
+    private static final String HTTP_ERROR = "HTTPError";
+    private static final String URL_ERROR = "URLError";
+    private static final String TYPE_ERROR = "TypeError";
+    private static final String UN_KNOW_ERROR = "UnknowError";
+
     /*
      * 初始化各种错误信息
      */
     static {
         mErrorInfoMap = new HashMap<>();
-        mErrorInfoMap.put("PermissionError", "token认证错误；已超出使用配额");
-        mErrorInfoMap.put("HTTPError", "抓取需要提取正文的网页时发生HTTP请求错误，如：404 Not Found");
-        mErrorInfoMap.put("URLError", "抓取需要提取正文的网页时发生网址错误，如：Name or service not known");
-        mErrorInfoMap.put("TypeError", "请求的资源不是html文档或xhtml文档，无法提取正文");
-        mErrorInfoMap.put("UnknowError", "未知错误，很可能是服务器内部错误。具体看错误消息");
+        mErrorInfoMap.put(PERMISSION_ERROR, "token认证错误；已超出使用配额");
+        mErrorInfoMap.put(HTTP_ERROR, "抓取需要提取正文的网页时发生HTTP请求错误，如：404 Not Found");
+        mErrorInfoMap.put(URL_ERROR, "抓取需要提取正文的网页时发生网址错误，如：Name or service not known");
+        mErrorInfoMap.put(TYPE_ERROR, "请求的资源不是html文档或xhtml文档，无法提取正文");
+        mErrorInfoMap.put(UN_KNOW_ERROR, "未知错误，很可能是服务器内部错误。具体看错误消息");
     }
 
     /**
@@ -76,7 +83,8 @@ public final class Url2IOBase {
     public void process() {
         //StringBuffer，用来承接服务器返回值
         StringBuffer sb = null;
-        for (int i = 0; i < mTotal; i++) {
+        int i = 0;
+        while (i < mTotal) {
             /*
              * 如果下一页的url为空，则停止爬取动作
              */
@@ -121,9 +129,23 @@ public final class Url2IOBase {
                 System.out.println("---------- duang 出问题了 ------------");
                 System.out.println("---> msg：" + response.getMsg());
                 System.out.println("---> error：" + mErrorInfoMap.get(response.getError()));
-                System.out.println("--------------------------------------");
 
-                return;
+                /*
+                 * 发生 HTTPError 多半是在爬取网页的时候遇到了下一页连接是一个广告的情况，这时只需要重试即可
+                 * 要重试，需要保证：
+                 * mIndex没有改变，mNextUrl没有改变，i也没有改变
+                 *
+                 * 如果是其他类型的错误，就没辙了
+                 */
+                if(HTTP_ERROR.equals(response.getError())){
+                    System.out.println("---> (可能试遇到广告了)开始重试... ----");
+                    System.out.println("--------------------------------------");
+                    continue;
+                }else{
+                    System.out.println("---> (我没辙了)需要你自己解决----------");
+                    System.out.println("--------------------------------------");
+                    return;
+                }
             }
 
             /*
@@ -145,6 +167,11 @@ public final class Url2IOBase {
             System.out.println("---> 开头几个字：" + response.getText().substring(0, 20));
             System.out.println("--------------------------------------");
             System.out.println("");
+
+            /*
+             * i++
+             */
+            i++;
 
             /*
              * 不可用高频的请求服务
