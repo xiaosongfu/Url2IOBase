@@ -66,12 +66,12 @@ public final class Url2IOBase {
      * @param beginUrl 基础url
      * @param sleepTime 爬取线程休眠的时间，单位毫秒
      */
-    public Url2IOBase(int index,int together , int total , String what, String baseUrl , String beginUrl, Long sleepTime , BaseProcess baseProcess) {
+    public Url2IOBase(int index,int together , int total , String what, String token , String beginUrl, Long sleepTime , BaseProcess baseProcess) {
         this.mIndex = index;
         this.mTogether = together;
         this.mTotal = total;
         this.mFileName = what + "-";
-        this.mBaseUrl = "http://api.url2io.com/article?token="+baseUrl+"&fields=next,text&url=";
+        this.mBaseUrl = "http://api.url2io.com/article?token="+token+"&fields=next,text&url=";
         this.mNextUrl = beginUrl;
         this.mSleepTime = sleepTime;
         this.mBaseProcess = baseProcess;
