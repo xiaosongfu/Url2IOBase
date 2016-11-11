@@ -2,10 +2,6 @@
 
 .DS_Store
 
-*.iml
-
 out/
-
-.idea/
 
 *.class
