@@ -16,6 +16,8 @@ import java.util.HashMap;
 public final class Url2IOBase {
     //索引，标识当前爬取到了第几页
     private int mIndex = 1;
+    //聚合大小，决定将多少个网页中爬取的正文内容保存在同一个文件里
+    private int mTogether = 10;
     //总共爬取多少页数据
     private int mTotal = 10;
     //文件名的前缀
@@ -27,10 +29,8 @@ public final class Url2IOBase {
     //爬取线程休眠的时间，单位毫秒
     private Long mSleepTime = 2000L;
 
-    //文件名的前缀
-    private int mFileNamePre = 1;
     //文件名中的章节范围
-    private String mMid = "1-10";
+    private String mFileNameMid = "1-10";
 
     //标题和正文内容的二次处理对象
     private BaseProcess mBaseProcess = null;
@@ -59,9 +59,9 @@ public final class Url2IOBase {
      * @param beginUrl 基础url
      * @param sleepTime 爬取线程休眠的时间，单位毫秒
      */
-    public Url2IOBase(int index, int total , String what, String baseUrl , String beginUrl, Long sleepTime , BaseProcess baseProcess) {
+    public Url2IOBase(int index,int together , int total , String what, String baseUrl , String beginUrl, Long sleepTime , BaseProcess baseProcess) {
         this.mIndex = index;
-        this.mFileNamePre = mIndex / 10 + 1;
+        this.mTogether = together;
         this.mTotal = total;
         this.mFileName = what + "-";
         this.mBaseUrl = "http://api.url2io.com/article?token="+baseUrl+"&fields=next,text&url=";
@@ -196,11 +196,9 @@ public final class Url2IOBase {
             /*
              * 写内容
              */
-            if ((mIndex-1) % 10 == 0) {
-                mFileNamePre++;
-            }
-            mMid = ((mFileNamePre - 1) * 10 +1) + "-" + (mFileNamePre * 10);
-            mWriterContentToFile.write(mFileName + mMid + "-content.txt", "\n\r\n" + mTitle + "\n" + mContent);
+            int index = (mIndex + mTogether - 1) / mTogether;
+            mFileNameMid = ((index - 1) * mTogether +1) + "-" + (index * mTogether);
+            mWriterContentToFile.write(mFileName + mFileNameMid + "-content.txt", "\n\r\n" + mTitle + "\n" + mContent);
 
             /*
              * mIndex自增
@@ -248,6 +246,8 @@ public final class Url2IOBase {
     public static final class Builder {
         //索引，标识当前爬取到了第几页
         private int mIndex = 1;
+        //聚合大小
+        private int mTogether = 10;
         //总共爬取多少页数据
         private int mTotal = 10;
         //文件名的前缀
@@ -278,6 +278,17 @@ public final class Url2IOBase {
          */
         public Builder index(int index){
             this.mIndex = index;
+            return this;
+        }
+
+        /**
+         * 聚合大小，决定将多少个网页中爬取的正文内容保存在同一个文件里
+         *
+         * @param together
+         * @return Builder实例
+         */
+        public Builder together(int together){
+            this.mTogether = together;
             return this;
         }
 
@@ -354,7 +365,7 @@ public final class Url2IOBase {
          * @return Url2IOBase 实例
          */
         public Url2IOBase build(){
-            return new Url2IOBase(mIndex, mTotal, mFileName, mToken, mNextUrl, mSleepTime, mBaseProcess);
+            return new Url2IOBase(mIndex, mTogether, mTotal, mFileName, mToken, mNextUrl, mSleepTime, mBaseProcess);
         }
     }
 }
