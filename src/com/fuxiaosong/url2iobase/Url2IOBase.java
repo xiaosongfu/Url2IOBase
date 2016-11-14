@@ -80,7 +80,7 @@ public final class Url2IOBase {
     /**
      * 核心方法，发起网络请求，处理服务器返回的结果，以及将结果写入文件
      */
-    public void process() {
+    public void article() {
         //StringBuffer，用来承接服务器返回值
         StringBuffer sb = null;
         int i = 0;
