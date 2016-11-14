@@ -1,6 +1,6 @@
 > [Url2IOBase库](https://github.com/xiaosongfu/Url2IOBase) 仅支持将爬取到的标题和内容写入文件，且文件的目录就是当前目录，它不支持其他任何操作，如保存到数据库等。
 
-> [Url2IOBaseElastic库](https://github.com/xiaosongfu/Url2IOElastic) 则是采用了插件机制，可以自定义类对结果进行自定义处理，如保存到数据库、上传到服务器等。
+> [Url2IOElastic库](https://github.com/xiaosongfu/Url2IOElastic) 则是采用了插件机制，可以自定义类对结果进行自定义处理，如保存到数据库、上传到服务器等。
 
 ---
 > 以下内容适用于 v2.0.0 以上版本，v1.x.x版本请参考[README-v1.md](https://github.com/xiaosongfu/Url2IOBase/blob/master/README-v1.md)
@@ -60,6 +60,5 @@
 ![我生气了](http://xiaosongfu-github.nos-eastchina1.126.net/error.png)
 
 
-很不幸，我的token让我弄生气了，然后罢工了，然后又哄好了，然后就可以愉快的玩耍了，大家折腾去吧...
 
 欢迎提issue，提PR。
