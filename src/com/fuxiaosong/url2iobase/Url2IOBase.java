@@ -6,6 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Url2IOBase 类
@@ -28,17 +30,21 @@ public final class Url2IOBase {
     private String mNextUrl = "";
     //爬取线程休眠的时间，单位毫秒
     private Long mSleepTime = 2000L;
-
     //文件名中的章节范围
     private String mFileNameMid = "1-10";
 
     //标题和正文内容的二次处理对象
     private BaseProcess mBaseProcess = null;
 
+    //线程池
+    ExecutorService pool = null;
+
     //保存各种错误信息
     private static HashMap<String , String> mErrorInfoMap = null;
 
-
+    /*
+     * 各种错误信息
+     */
     private static final String PERMISSION_ERROR = "PermissionError";
     private static final String HTTP_ERROR = "HTTPError";
     private static final String URL_ERROR = "URLError";
@@ -75,6 +81,14 @@ public final class Url2IOBase {
         this.mNextUrl = beginUrl;
         this.mSleepTime = sleepTime;
         this.mBaseProcess = baseProcess;
+
+        /*
+         * 创建一个单线程的线程池。这个线程池只有一个线程在工作，也就是相当于单线程串行执行所有任务。
+         * 如果这个唯一的线程因为异常结束，那么会有一个新的线程来替代它。此线程池保证所有任务的执行顺序按照任务的提交顺序执行。
+         *
+         * http://www.oschina.net/question/565065_86540
+         */
+        pool = Executors.newSingleThreadExecutor();
     }
 
     /**
@@ -92,6 +106,8 @@ public final class Url2IOBase {
                 System.out.println("-------------------------------------");
                 System.out.println("---- 要爬取的url为空,爬取动作停止 ----");
                 System.out.println("-------------------------------------");
+                //关闭线程池
+                pool.shutdown();
                 return;
             }
             //实例化StringBuffer
@@ -144,6 +160,8 @@ public final class Url2IOBase {
                 }else{
                     System.out.println("---> (我没辙了)需要你自己解决----------");
                     System.out.println("--------------------------------------");
+                    //关闭线程池
+                    pool.shutdown();
                     return;
                 }
             }
@@ -151,7 +169,8 @@ public final class Url2IOBase {
             /*
              * 启动线程写入文件
              */
-            new WriteToFileThread(response.getTitle(), response.getText(), mNextUrl).start();
+//            new WriteToFileThread(response.getTitle(), response.getText(), mNextUrl).start();
+            pool.execute(new WriteToFileThread(response.getTitle(), response.getText(), mNextUrl));
 
             /*
              * 保存下一页的url
@@ -181,6 +200,17 @@ public final class Url2IOBase {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+
+        /*
+         * 爬完了
+         */
+        if(i == mTotal){
+            System.out.println("**************************************");
+            System.out.println("********** HaHa 爬完了!!! *************");
+            System.out.println("**************************************");
+            //关闭线程池
+            pool.shutdown();
         }
     }
 
@@ -215,6 +245,7 @@ public final class Url2IOBase {
                 mTitle = mBaseProcess.processTitle(mTitle);
                 mContent = mBaseProcess.processText(mContent);
             }
+
             /*
              * 写标题
              */
