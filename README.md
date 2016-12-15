@@ -20,7 +20,8 @@
 5. token : token 必须要设置，token 必须要设置，重要的事情说2遍(到官网 [url2io](http://www.url2io.com/) 注册帐号就可以拿到 token 了，莫急莫急)
 7. beginUrl : 爬取的第一个网页的 url，必须要设置，必须要设置，必须要设置，重要的事情说3遍
 8. sleepTime : 我也不知道 [url2io](http://www.url2io.com/) 的抗压能力怎么样，不过爬一页休息2秒也没什么关系吧，该属性的默认值为2秒
-9. process : 把标题和正文内容爬出来了，但是可能包含一些我们不想要的东西，这时候就得自己写代码把那些渣渣去掉了，具体请到[测试文件：Url2IOBaseTest](https://github.com/xiaosongfu/Url2IOBase/blob/master/src/com/fuxiaosong/url2iobase/Url2IOBaseTest.java) 里一看便知，其实就是把标题和正文处理了一下，去掉几个字符什么的，相信你懂的 ^-^ ，默认不再做任何处理
+9. process : 把标题和正文内容爬出来了，但是可能包含一些我们不想要的东西，这时候就得自己写代码把那些渣渣去掉了，具体请到[测试文件：Url2IOBaseTest](https://github.com/xiaosongfu/Url2IOBase/blob/master/src/com/fuxiaosong/url2iobase/Url2IOBaseTest.java) 里一看便知，其实就是把标题和正文处理了一下，去掉几个字符什么的，相信你懂的 ^-^ ，默认不再做任何处理  
+
 ## #3
 使用方法
 > 1. 引入 jar 包
