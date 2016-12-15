@@ -13,15 +13,14 @@
 ## #2
 代码使用建造者模式，使用十分简单，到[测试文件：Url2IOBaseTest](https://github.com/xiaosongfu/Url2IOBase/blob/master/src/com/fuxiaosong/url2iobase/Url2IOBaseTest.java) 里一看便懂。现对所有的参数做着重说明：
 
-> 1. index : 仅表示索引，该属性的默认值为1，仅仅是标识当前爬取到第多少页，在控制台打印信息的时候显示用，并没有其他什么用
-2. total : 指定需要爬取多少页的数据
-3. together : 聚合大小，用于指定将多少个网页的正文内容保存在同一个 txt 文件中
+> 1. index : 仅表示索引，仅仅是标识当前爬取到第多少页，在控制台打印信息的时候显示用，并没有其他什么用，该属性的默认值为1
+2. total : 指定共需要爬取多少页的数据，该属性的默认值为10
+3. together : 聚合大小，用于指定将多少个网页的正文内容保存在同一个 txt 文件中，该属性的默认值为10
 4. what : 爬取的是什么东西，如小说的书名，仅用于输出文件的文件名
 5. token : token 必须要设置，token 必须要设置，重要的事情说2遍(到官网 [url2io](http://www.url2io.com/) 注册帐号就可以拿到 token 了，莫急莫急)
 7. beginUrl : 爬取的第一个网页的 url，必须要设置，必须要设置，必须要设置，重要的事情说3遍
-8. sleepTime : 我也不知道 [url2io](http://www.url2io.com/) 的抗压能力怎么样，不过爬一页休息2秒也没什么关系吧
-9. process : 把标题和正文内容爬出来了，但是可能包含一些我们不想要的东西，这时候就得自己写代码把那些渣渣去掉了，具体请到[测试文件：Url2IOBaseTest](https://github.com/xiaosongfu/Url2IOBase/blob/master/src/com/fuxiaosong/url2iobase/Url2IOBaseTest.java) 里一看便知，其实就是把标题和正文处理了一下，去掉几个字符什么的，相信你懂的 ^-^
-
+8. sleepTime : 我也不知道 [url2io](http://www.url2io.com/) 的抗压能力怎么样，不过爬一页休息2秒也没什么关系吧，该属性的默认值为2秒
+9. process : 把标题和正文内容爬出来了，但是可能包含一些我们不想要的东西，这时候就得自己写代码把那些渣渣去掉了，具体请到[测试文件：Url2IOBaseTest](https://github.com/xiaosongfu/Url2IOBase/blob/master/src/com/fuxiaosong/url2iobase/Url2IOBaseTest.java) 里一看便知，其实就是把标题和正文处理了一下，去掉几个字符什么的，相信你懂的 ^-^ ，默认不再做任何处理
 ## #3
 使用方法
 > 1. 引入 jar 包
